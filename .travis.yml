@@ -14,9 +14,17 @@ matrix:
       services: docker
       before_install:
         - docker pull ubuntu:bionic
-        #- docker run ubuntu:bionic /bin/sh -c "sudo apt install python3 xvfb gir1.2-gtk-3.0 gir1.2-webkit2-4.0 python-gi python-gi-cairo python-pytest"
-      env: PACKAGES="xvfb gir1.2-gtk-3.0 gir1.2-webkit2-4.0 python-gi python-gi-cairo pep8 pyflakes python-pytest" PYTHON="python"
-    # - os: linux
+      install:
+        - docker run ubuntu:bionic /bin/sh -c "sudo apt update"
+        - docker run ubuntu:bionic /bin/sh -c "sudo apt install -y --no-install-recommends xvfb gir1.2-gtk-3.0 gir1.2-webkit2-4.0 python-gi python-gi-cairo python3-pytest"
+      before_script:
+        - docker run ubuntu:bionic /bin/sh -c "export DISPLAY=:99.0"
+        - docker run ubuntu:bionic /bin/sh -e "/etc/init.d/xvfb start"
+      script:
+        - docker run ubuntu:bionic /bin/sh -c "python -m pytest tests -s;" 
+        
+
+# - os: linux
     #   sudo: required
     #   dist: trusty
     #   language: python
