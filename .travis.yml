@@ -15,6 +15,7 @@ matrix:
       before_install:
         - docker pull ubuntu:bionic
       install:
+        - docker run ubuntu:bionic /bin/sh -c "apt-cache policy"
         - docker run ubuntu:bionic /bin/sh -c "apt-get update"
         - docker run ubuntu:bionic /bin/sh -c "apt-get install -y --no-install-recommends xvfb gir1.2-gtk-3.0 gir1.2-webkit2-4.0 python-gi python-gi-cairo python3-pytest"
       before_script:
